@@ -48,12 +48,14 @@
       background: #fff;
       border-bottom: 1px solid #eee;
       z-index: 50;
+      height: 64px; /* Fixed height to reserve space */
     }
     .nav-wrap {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 14px 5%;
+      height: 100%;
     }
     .brand {
       display: flex;
@@ -73,6 +75,7 @@
       display: flex; /* Ensure nav-links are always flex on desktop */
       gap: 22px;
       align-items: center;
+      visibility: visible; /* Explicitly ensure visibility */
     }
     .nav-links a {
       color: #333;
@@ -145,6 +148,7 @@
         display: none;
         flex-direction: column;
         gap: 6px;
+        z-index: 60; /* Ensure it stays above other content */
       }
       .mobile-panel a {
         padding: 12px;
@@ -373,6 +377,5 @@
       }
     });
   </script>
-  m
 </body>
   </html>
