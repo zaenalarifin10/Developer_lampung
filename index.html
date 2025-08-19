@@ -1,209 +1,173 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="id">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Website Directory</title>
+  <title>Welcome | Directory</title>
+  <!-- Favicon pakai logo.png sesuai permintaan -->
+  <link rel="icon" href="logo.png" type="image/png"/>
+  <meta name="theme-color" content="#ffffff" />
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f9f9f9;
-      color: #222;
+    :root{
+      --bg:#f7f7f8; --card:#ffffff; --text:#222; --muted:#666; --primary:#2563eb; --ring:rgba(37,99,235,.15);
+      --radius:14px;
     }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;background:var(--bg);color:var(--text)}/* ===== Loader ===== */
+#loader{position:fixed;inset:0;background:#fff;display:flex;align-items:center;justify-content:center;z-index:9999;transition:opacity .5s ease,visibility .5s ease}
+#loader.hidden{opacity:0;visibility:hidden}
 
-    /* Loader */
-    #loader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      transition: opacity 0.5s ease, visibility 0.5s ease;
-    }
-    #loader.hidden {
-      opacity: 0;
-      visibility: hidden;
-    }
+/* ===== Header / Navbar ===== */
+header{position:sticky;top:0;background:#fff;border-bottom:1px solid #eee;z-index:50}
+.nav-wrap{display:flex;align-items:center;justify-content:space-between;padding:14px 5%}
+.brand{display:flex;gap:10px;align-items:center}
+.brand img{width:28px;height:28px;object-fit:contain}
+.brand span{font-weight:700;letter-spacing:.2px}
 
-    /* Header */
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 5%;
-      background: #fff;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    }
-    .logo {
-      font-weight: bold;
-      font-size: 20px;
-      color: #333;
-    }
-    nav ul {
-      display: flex;
-      gap: 20px;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-    nav a {
-      text-decoration: none;
-      color: #333;
-      font-weight: 500;
-    }
-    .btn {
-      background: #2563eb;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: 0.2s;
-    }
-    .btn:hover {
-      background: #1d4ed8;
-    }
+.nav-links{display:flex;gap:22px;align-items:center}
+.nav-links a{color:#333;text-decoration:none;font-weight:500}
+.btn{background:var(--primary);color:#fff;padding:10px 16px;border-radius:10px;text-decoration:none;font-weight:700;box-shadow:0 6px 18px var(--ring);}
+.btn:active{transform:translateY(1px)}
 
-    /* Cards Section */
-    .cards {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      padding: 40px 5%;
-      justify-content: center;
-    }
-    .card {
-      position: relative;
-      flex: 1;
-      min-width: 250px;
-      max-width: 300px;
-      background: #fff;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      transition: transform 0.2s;
-      cursor: pointer;
-    }
-    .card:hover {
-      transform: translateY(-5px);
-    }
-    .card img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-      display: block;
-    }
-    .card-content {
-      padding: 15px;
-    }
-    .card h3 {
-      margin: 10px 0 5px;
-    }
-    .card p {
-      font-size: 14px;
-      color: #555;
-    }
+/* Hamburger */
+.hamburger{display:none;appearance:none;border:0;background:transparent;width:40px;height:40px;border-radius:10px;align-items:center;justify-content:center}
+.hamburger span,.hamburger::before,.hamburger::after{content:"";display:block;width:22px;height:2px;background:#111;margin:4px 0;border-radius:2px;transition:transform .25s ease,opacity .25s ease}
+.hamburger.active::before{transform:translateY(6px) rotate(45deg)}
+.hamburger.active::after{transform:translateY(-6px) rotate(-45deg)}
+.hamburger.active span{opacity:0}
 
-    /* Overlay Preview */
-    .preview-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.6);
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.3s ease, visibility 0.3s ease;
-      font-size: 18px;
-      text-align: center;
-    }
-    .card:hover .preview-overlay {
-      opacity: 1;
-      visibility: visible;
-    }
+/* Mobile menu panel */
+@media (max-width: 768px){
+  .nav-links{display:none}
+  .hamburger{display:inline-flex}
+  .mobile-panel{position:absolute;left:16px;right:16px;top:64px;background:#fff;border:1px solid #eee;border-radius:14px;box-shadow:0 20px 40px rgba(0,0,0,.08);padding:12px;display:none;flex-direction:column;gap:6px}
+  .mobile-panel a{padding:12px;border-radius:10px;text-decoration:none;color:#222}
+  .mobile-panel a:hover{background:#f3f4f6}
+  .mobile-panel.open{display:flex}
+}
 
-    @media (max-width: 768px) {
-      nav ul { display: none; }
-      .cards { flex-direction: column; align-items: center; }
-    }
+/* ===== Hero ===== */
+.hero{padding:48px 5%;display:flex;align-items:center;justify-content:space-between;gap:24px;background:#fff}
+.hero h1{margin:0 0 10px;font-size:40px}
+.hero p{margin:0;color:var(--muted)}
+
+/* ===== Cards (1 baris = 3 kolom di desktop) ===== */
+.cards{padding:36px 5%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:0 2px 8px rgba(0,0,0,.05);overflow:hidden;transition:transform .2s ease, box-shadow .2s ease;border:1px solid #eee}
+.card:hover{transform:translateY(-4px);box-shadow:0 12px 24px rgba(0,0,0,.08)}
+
+.thumb{position:relative;overflow:hidden}
+.thumb img{width:100%;height:190px;object-fit:cover;display:block;transition:transform .4s ease}
+.overlay{position:absolute;inset:0;background:rgba(0,0,0,.55);color:#fff;display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(1.05);transition:opacity .25s ease, transform .25s ease;font-weight:700}
+.card:hover .thumb img{transform:scale(1.06)}
+.card:hover .overlay{opacity:1;transform:scale(1)}
+
+.card-body{padding:16px}
+.badge{display:inline-block;font-size:12px;background:#eef2ff;color:#1e40af;border:1px solid #c7d2fe;padding:4px 8px;border-radius:999px;margin-bottom:10px}
+.card h3{margin:0 0 6px;font-size:18px}
+.meta{margin:0;color:var(--muted);font-size:14px}
+
+/* Responsif: kartu menjadi kolom saat mobile, navbar tetap ada via hamburger */
+@media (max-width: 980px){
+  .cards{grid-template-columns:1fr}
+  .hero{flex-direction:column;align-items:flex-start}
+  .hero h1{font-size:32px}
+}
+
   </style>
 </head>
 <body>
   <!-- Loader -->
-  <div id="loader">
-    <img src="loading.gif" alt="Loading...">
+  <div id="loader"><img src="loading.gif" alt="Loading..."/></div>  <!-- Header / Navbar -->  <header>
+    <div class="nav-wrap">
+      <a class="brand" href="#" aria-label="Beranda">
+        <!-- Logo di navbar -->
+        <img src="logo.png" alt="Logo" onerror="this.onerror=null;this.src='https://via.placeholder.com/28x28?text=L'"/>
+        <span>My Directory</span>
+      </a><nav class="nav-links" aria-label="Navigasi utama">
+    <a href="#">Home</a>
+    <a href="#templates">Templates</a>
+    <a href="#contact">Contact</a>
+    <a class="btn" href="#">Sign Up</a>
+  </nav>
+
+  <button id="navToggle" class="hamburger" aria-label="Toggle menu" aria-expanded="false">
+    <span></span>
+  </button>
+</div>
+<!-- Panel menu mobile -->
+<div id="mobilePanel" class="mobile-panel" aria-label="Menu mobile">
+  <a href="#">Home</a>
+  <a href="#templates">Templates</a>
+  <a href="#contact">Contact</a>
+  <a class="btn" href="#">Sign Up</a>
+</div>
+
+  </header>  <!-- Hero -->  <section class="hero">
+    <div>
+      <h1>Welcome</h1>
+      <p>Pilih <strong>templete</strong> situs favoritmu di bawah ini. Klik gambar untuk menuju situs aslinya.</p>
+    </div>
+  </section>  <!-- Cards: 1 baris, 3 card -->  <section id="templates" class="cards" aria-label="Daftar templete">
+    <!-- Card 1 -->
+    <a class="card" href="https://example.com/portfolio" target="_blank" rel="noopener">
+      <div class="thumb">
+        <!-- Semua pakai gambar.jpg sesuai permintaan; fallback placeholder saat preview -->
+        <img src="gambar.jpg" alt="Preview Portfolio" onerror="this.onerror=null;this.src='https://via.placeholder.com/800x500?text=gambar.jpg'"/>
+        <div class="overlay">Preview</div>
+      </div>
+      <div class="card-body">
+        <span class="badge">templete</span>
+        <h3>Jenis Situs: Portfolio</h3>
+        <p class="meta">Tema: Minimalis bersih</p>
+      </div>
+    </a><!-- Card 2 -->
+<a class="card" href="https://example.com/blog" target="_blank" rel="noopener">
+  <div class="thumb">
+    <img src="gambar.jpg" alt="Preview Blog" onerror="this.onerror=null;this.src='https://via.placeholder.com/800x500?text=gambar.jpg'"/>
+    <div class="overlay">Preview</div>
   </div>
+  <div class="card-body">
+    <span class="badge">templete</span>
+    <h3>Jenis Situs: Blog</h3>
+    <p class="meta">Tema: Typographic</p>
+  </div>
+</a>
 
-  <!-- Header -->
-  <header>
-    <div class="logo">Logo</div>
-    <nav>
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Directory</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-    </nav>
-    <a href="#" class="btn">Sign Up</a>
-  </header>
+<!-- Card 3 -->
+<a class="card" href="https://example.com/shop" target="_blank" rel="noopener">
+  <div class="thumb">
+    <img src="gambar.jpg" alt="Preview Toko" onerror="this.onerror=null;this.src='https://via.placeholder.com/800x500?text=gambar.jpg'"/>
+    <div class="overlay">Preview</div>
+  </div>
+  <div class="card-body">
+    <span class="badge">templete</span>
+    <h3>Jenis Situs: E‑commerce</h3>
+    <p class="meta">Tema: Cerah & modern</p>
+  </div>
+</a>
 
-  <!-- Cards Section -->
-  <section class="cards">
-    <a href="https://example1.com" target="_blank" class="card">
-      <img src="https://via.placeholder.com/300x180.png?text=Site+1" alt="Site 1 Preview">
-      <div class="preview-overlay">🔎 Preview Site 1</div>
-      <div class="card-content">
-        <h3>Site 1</h3>
-        <p>Tema: Portfolio</p>
-      </div>
-    </a>
-
-    <a href="https://example2.com" target="_blank" class="card">
-      <img src="https://via.placeholder.com/300x180.png?text=Site+2" alt="Site 2 Preview">
-      <div class="preview-overlay">🔎 Preview Site 2</div>
-      <div class="card-content">
-        <h3>Site 2</h3>
-        <p>Tema: Blog</p>
-      </div>
-    </a>
-
-    <a href="https://example3.com" target="_blank" class="card">
-      <img src="https://via.placeholder.com/300x180.png?text=Site+3" alt="Site 3 Preview">
-      <div class="preview-overlay">🔎 Preview Site 3</div>
-      <div class="card-content">
-        <h3>Site 3</h3>
-        <p>Tema: E-commerce</p>
-      </div>
-    </a>
-
-    <a href="https://example4.com" target="_blank" class="card">
-      <img src="https://via.placeholder.com/300x180.png?text=Site+4" alt="Site 4 Preview">
-      <div class="preview-overlay">🔎 Preview Site 4</div>
-      <div class="card-content">
-        <h3>Site 4</h3>
-        <p>Tema: Landing Page</p>
-      </div>
-    </a>
-  </section>
-
-  <script>
-    // Hilangkan loader setelah halaman selesai dimuat
-    window.addEventListener("load", function() {
-      document.getElementById("loader").classList.add("hidden");
+  </section>  <script>
+    // Loader hilang saat halaman siap
+    window.addEventListener('load', ()=>{
+      document.getElementById('loader').classList.add('hidden');
     });
-  </script>
-</body>
-</html>
+
+    // Toggle menu mobile
+    const toggle = document.getElementById('navToggle');
+    const panel = document.getElementById('mobilePanel');
+    toggle.addEventListener('click', ()=>{
+      const open = panel.classList.toggle('open');
+      toggle.classList.toggle('active', open);
+      toggle.setAttribute('aria-expanded', open);
+    });
+
+    // Tutup panel jika klik di luar saat terbuka
+    document.addEventListener('click', (e)=>{
+      if(panel.classList.contains('open')){
+        const inside = panel.contains(e.target) || toggle.contains(e.target);
+        if(!inside){ panel.classList.remove('open'); toggle.classList.remove('active'); toggle.setAttribute('aria-expanded','false'); }
+      }
+    });
+  </script></body>
+  </html>
